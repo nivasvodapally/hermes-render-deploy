@@ -1,11 +1,19 @@
 FROM nousresearch/hermes-agent:latest
 
-# Config is already at /opt/data/.hermes/config.yaml (HERMES_HOME=/opt/data)
-# Write our config
+# Override the entrypoint to bypass s6-overlay
+ENTRYPOINT []
+
+# Copy our config
 COPY config.yaml /opt/data/.hermes/config.yaml
 
-# The .env will be decoded from HERMES_ENV_B64 at runtime
+# Copy start script
 COPY start.sh /app/start.sh
 RUN chmod +x /app/start.sh
+
+ENV HOME=/opt/data
+ENV HERMES_HOME=/opt/data/.hermes
+ENV PYTHONUNBUFFERED=1
+
+EXPOSE 10000
 
 CMD ["/app/start.sh"]
