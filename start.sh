@@ -1,25 +1,34 @@
 #!/bin/bash
-echo "=== Hermes Bot Starting ==="
+echo "=== Hermes Bot Debug Start ==="
+echo "HOME=$HOME"
+echo "HERMES_HOME=$HERMES_HOME"
+echo "PATH=$PATH"
 
 # Decode .env
 if [ -n "$HERMES_ENV_B64" ]; then
     echo "$HERMES_ENV_B64" | base64 -d > /root/.hermes/.env
-    echo "Decoded .env"
-    # Show which keys are set (not values)
-    grep -v "^#\|^$" /root/.hermes/.env | cut -d= -f1 | head -20
+    echo "Decoded .env to /root/.hermes/.env"
 fi
 
-# Verify critical env vars
-echo "TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:+SET}"
-echo "GATEWAY_ALLOW_ALL_USERS: ${GATEWAY_ALLOW_ALL_USERS:+SET}"
+# Show config file
+echo "=== CONFIG.YAML ==="
+cat /root/.hermes/config.yaml
+echo "=== END CONFIG ==="
+
+# Show .env (keys only, no values)
+echo "=== .ENV KEYS ==="
+grep -v "^#\|^$" /root/.hermes/.env 2>/dev/null | cut -d= -f1
+echo "=== END .ENV ==="
+
+# Show which hermes
+which python3
+python3 -c "import hermes_cli; print(hermes_cli.__file__)"
 
 # Start health server
 python3 /app/health.py &
-echo "Health server on port 10000"
+sleep 1
 
-sleep 2
-
-# Start gateway with verbose logging
-echo "Starting Hermes Gateway..."
+# Start gateway
+echo "=== STARTING GATEWAY ==="
 cd /root
 exec python3 -m hermes_cli.main gateway run 2>&1
