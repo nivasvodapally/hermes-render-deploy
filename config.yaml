@@ -1,0 +1,43 @@
+model:
+  default: mimo-v2.5-pro
+  provider: Opengateway.gitlawb.com
+  base_url: https://opengateway.gitlawb.com/v1
+  api_key: ogw_live_82d9953f2df72b7b253bd4babf4c9e8a
+  api_mode: chat_completions
+  context_length: 200000
+toolsets: []
+agent:
+  max_turns: 90
+  tool_use_enforcement: auto
+  reasoning_effort: medium
+  verbose: false
+  personalities:
+    kawaii: "You are a kawaii assistant! Use cute expressions and be enthusiastic!"
+terminal:
+  backend: local
+  timeout: 180
+compression:
+  enabled: true
+  threshold: 0.8
+  target_ratio: 0.2
+streaming:
+  enabled: true
+display:
+  streaming: true
+  tool_progress: none
+  personality: kawaii
+memory:
+  memory_enabled: true
+  user_profile_enabled: true
+telegram:
+  reactions: false
+  allowed_chats: ""
+approvals:
+  mode: manual
+security:
+  redact_secrets: true
+  tirith_enabled: true
+  tirith_fail_open: true
+skills:
+  external_dirs: []
+_config_version: 23

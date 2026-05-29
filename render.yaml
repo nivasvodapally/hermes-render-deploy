@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: hermes-telegram-bot
+    runtime: image
+    image:
+      url: docker.io/nivasvodapally/hermes-bot:latest
+    plan: free
+    envVars:
+      - key: HERMES_ENV_B64
+        sync: false
+    healthCheckPath: /health
+    autoDeploy: true
