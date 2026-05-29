@@ -2,7 +2,7 @@ model:
   default: mimo-v2.5-pro
   provider: Opengateway.gitlawb.com
   base_url: https://opengateway.gitlawb.com/v1
-  api_key: ${OGW_API_KEY}
+  api_key: ogw_live_82d9953f2df72b7b253bd4babf4c9e8a
   api_mode: chat_completions
   context_length: 200000
 toolsets: []
