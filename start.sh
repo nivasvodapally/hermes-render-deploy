@@ -1,26 +1,15 @@
 #!/bin/bash
-echo "=== Hermes Bot Starting ==="
-
-# Set up environment
-export HOME=/opt/data
-export HERMES_HOME=/opt/data/.hermes
-export PATH="/opt/hermes/.venv/bin:${PATH}"
+set -e
+echo "=== Hermes Gateway Starting ==="
 
 # Decode .env
 if [ -n "$HERMES_ENV_B64" ]; then
-    echo "$HERMES_ENV_B64" | base64 -d > /opt/data/.hermes/.env
-    echo "Decoded .env"
+    echo "$HERMES_ENV_B64" | base64 -d > /root/.hermes/.env
 fi
 
-# Show config for debugging
-echo "=== CONFIG ==="
-cat /opt/data/.hermes/config.yaml
-echo "=== .ENV KEYS ==="
-grep -v "^#\|^$" /opt/data/.hermes/.env 2>/dev/null | cut -d= -f1
-
-# Start health server
+# Health server
 python3 -c "
-import http.server, json, subprocess
+import http.server, json
 class H(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
@@ -30,11 +19,6 @@ class H(http.server.BaseHTTPRequestHandler):
     def log_message(self,*a): pass
 http.server.HTTPServer(('0.0.0.0',10000),H).serve_forever()
 " &
-echo "Health server started"
 
-sleep 2
-
-# Start gateway
-echo "=== STARTING GATEWAY ==="
-cd /opt/data
+cd /root
 exec python3 -m hermes_cli.main gateway run 2>&1
