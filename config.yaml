@@ -388,7 +388,7 @@ mattermost:
 memory:
   flush_min_turns: 6
   memory_char_limit: 2200
-  memory_enabled: false
+  memory_enabled: true
   nudge_interval: 10
   provider: ''
   user_char_limit: 1375
@@ -547,7 +547,12 @@ tool_output:
   max_bytes: 50000
   max_line_length: 2000
   max_lines: 2000
-toolsets: []
+toolsets:
+- memory
+- session_search
+- file
+- terminal
+- web
 tts:
   edge:
     voice: en-US-AriaNeural
